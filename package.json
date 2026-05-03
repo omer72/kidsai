@@ -8,9 +8,18 @@
     "start": "next start"
   },
   "dependencies": {
+    "@ai-sdk/anthropic": "^3.0.74",
+    "@ai-sdk/openai": "^3.0.58",
+    "@anthropic-ai/sdk": "^0.92.0",
+    "@capacitor/cli": "^8.3.1",
+    "@capacitor/core": "^8.3.1",
+    "@capacitor/ios": "^8.3.1",
+    "ai": "^6.0.174",
     "next": "16.2.4",
+    "openai": "^6.35.0",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "zod": "^4.4.2"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -18,6 +27,6 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5.9.3"
   }
 }
