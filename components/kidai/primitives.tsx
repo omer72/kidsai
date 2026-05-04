@@ -271,23 +271,11 @@ export function IOSStatusBar() {
 // ─── IOSFrame ─────────────────────────────────────────────────────────────────
 
 export function IOSFrame({ children }: { children: ReactNode }) {
-  const W = 402, H = 874;
   return (
-    <div style={{
-      width: '100vw', height: '100vh',
-      display: 'flex', alignItems: 'center', justifyContent: 'center',
-      background: '#E8ECF3',
-    }}>
-      <div style={{
-        width: W, height: H,
-        borderRadius: 55,
-        boxShadow: '0 60px 120px rgba(0,0,0,0.28), 0 0 0 1px rgba(0,0,0,0.12), inset 0 0 0 2px rgba(255,255,255,0.15)',
-        overflow: 'hidden',
-        position: 'relative',
-        background: '#fff',
-      }}>
-        {/* notch */}
-        <div style={{
+    <div className="ios-frame-outer">
+      <div className="ios-frame-inner">
+        {/* notch — hidden on real mobile via CSS */}
+        <div className="ios-frame-notch" style={{
           position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)',
           zIndex: 100, width: 126, height: 37,
           background: '#1A1A2E', borderRadius: '0 0 22px 22px',

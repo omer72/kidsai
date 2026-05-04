@@ -5,10 +5,11 @@ const isDev = process.env.NODE_ENV !== 'production';
 const config: CapacitorConfig = {
   appId: 'com.kidai.app',
   appName: 'Kidai',
-  webDir: '.next/static',
-  server: isDev
-    ? { url: 'http://localhost:3000', cleartext: true }
-    : undefined,
+  webDir: 'public',
+  server: {
+    url: isDev ? 'http://localhost:3000' : 'https://kidsai-seven.vercel.app',
+    cleartext: isDev,
+  },
   ios: {
     contentInset: 'automatic',
     preferredContentMode: 'mobile',

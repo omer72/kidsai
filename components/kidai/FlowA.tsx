@@ -24,9 +24,11 @@ export function FlowA({
   const [response, setResponse] = useState<GuidanceResponse | undefined>();
   const [audioBlob, setAudioBlob] = useState<Blob | null>(null);
   const [transcript, setTranscript] = useState<string | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const mediaRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const kid = kids.find(k => k.id === activeKid) ?? kids[0]!;
 
@@ -114,9 +116,29 @@ export function FlowA({
   };
 
   const reset = () => {
+    audioRef.current?.pause();
+    audioRef.current = null;
+    setIsPlaying(false);
     setStage('idle'); setElapsed(0); setStep(0); setResponse(undefined);
     setTranscript(null); setAudioBlob(null);
     setCtx({ location: null, mood: null, involved: null, urgency: null });
+  };
+
+  const playPreview = () => {
+    if (!audioBlob) return;
+    if (isPlaying) {
+      audioRef.current?.pause();
+      setIsPlaying(false);
+      return;
+    }
+    if (!audioRef.current) {
+      const url = URL.createObjectURL(audioBlob);
+      const audio = new Audio(url);
+      audio.onended = () => setIsPlaying(false);
+      audioRef.current = audio;
+    }
+    audioRef.current.play();
+    setIsPlaying(true);
   };
 
   const fmt = (s: number) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
@@ -179,9 +201,9 @@ export function FlowA({
         </div>
         <Card style={{ marginBottom: 16 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
-            <div style={{ width: 44, height: 44, borderRadius: 44, background: T.ink, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-              <Icon.Play s={16} c="#fff"/>
-            </div>
+            <button onClick={playPreview} style={{ width: 44, height: 44, borderRadius: 44, background: T.ink, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, border: 'none', cursor: 'pointer' }}>
+              {isPlaying ? <Icon.Pause s={16} c="#fff"/> : <Icon.Play s={16} c="#fff"/>}
+            </button>
             <div style={{ flex: 1 }}>
               <LiveWaveform active={false} height={36} bars={40} color={T.primary}/>
             </div>
